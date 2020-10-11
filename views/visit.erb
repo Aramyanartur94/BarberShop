@@ -26,9 +26,9 @@
 <div class="form-group">
     <label>Выбирите парихмахера:</label>
  <select name="nameparihmaher" class="form-control">
-    <option>Евгений Пупкин</option>
-    <option>Сергей Васильков</option>
-    <option>Анастасия Нускина</option>
+    <option <%= @nameparihmaher == 'Евгений Пупкин' ? 'selected' : '' %>>Евгений Пупкин</option>
+    <option <%= @nameparihmaher == 'Серго Бандит' ? 'selected' : '' %>>Серго Бандит</option>
+    <option <%= @nameparihmaher == 'Анастасия Нускина' ? 'selected' : '' %>>Анастасия Нускина</option>
 </select>
 </div>
 
