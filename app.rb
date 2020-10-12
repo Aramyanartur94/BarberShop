@@ -41,7 +41,7 @@ get '/contacts' do
 end
 
 get '/showusers' do
-	erb 'Helow word'
+	erb :showusers
 end
 
 post '/visit' do
@@ -85,7 +85,7 @@ post '/visit' do
 	db = get_db
 	db.execute 'INSERT INTO Users (username, phone, datestamp, barber, color) 
 	values (?,?,?,?,?)', [@username, @phone, @datetime, @nameparihmaher, @color]
-
+	db.close
 	@title = "Спасибо!"
 	@message = "Уважаемый, #{@username}, #{@nameparihmaher} будет Вас ждать #{@datetime}" 
 
