@@ -4,7 +4,7 @@
 	<p><%= @username %></p>
 	<p><%= @phone %></p>
 	<p><%= @datetime %></p>
-	<p><%= @nameparihmaher %></p>
+	<p><%= @barber %></p>
 
 <form action="/visit" method="POST" role="form">
   
@@ -25,10 +25,16 @@
 
 <div class="form-group">
     <label>Выбирите парихмахера:</label>
- <select name="nameparihmaher" class="form-control">
-    <option <%= @nameparihmaher == 'Евгений Пупкин' ? 'selected' : '' %>>Евгений Пупкин</option>
-    <option <%= @nameparihmaher == 'Серго Бандит' ? 'selected' : '' %>>Серго Бандит</option>
-    <option <%= @nameparihmaher == 'Анастасия Нускина' ? 'selected' : '' %>>Анастасия Нускина</option>
+ <select name="barber" class="form-control">
+   
+
+    <!-- <option <%= @barber == 'Евгений Пупкин' ? 'selected' : '' %>>Евгений Пупкин</option> -->
+    <!-- <option <%= @barber == 'Серго Бандит' ? 'selected' : '' %>>Серго Бандит</option> -->
+    <!-- <option <%= @barber == 'Анастасия Нускина' ? 'selected' : '' %>>Анастасия Нускина</option> -->
+
+    <% @barbers.each do |item| %>
+      <option <%= @barber == item['name'] ? 'selected' : '' %>><%= item['name'] %></option>>
+    <% end %>
 </select>
 </div>
 

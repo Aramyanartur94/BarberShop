@@ -22,6 +22,11 @@ def get_db
 	return db
 end
 
+before do
+	db = get_db
+	@barbers = db.execute 'select * from Barbers'
+end
+
 configure do
 	db = get_db
 	
@@ -43,7 +48,7 @@ configure do
 		"name"	TEXT
 	)'
 
-	seed_db db, ['Евгений Пупкин', 'Серго Бандит', 'Анастасия Нускина']
+	seed_db db, ['Евгений Пупкин', 'Серго Бандит', 'Анастасия Нускина', 'Альберт Альбертович']
 end
 
 get '/' do
@@ -76,7 +81,7 @@ post '/visit' do
 	@username = params[:username]
 	@phone = params[:phone]
 	@datetime = params[:datetime]
-	@nameparihmaher = params[:nameparihmaher]
+	@barber = params[:barber]
 	@color = params[:color]
 
 	# хеш
@@ -112,13 +117,13 @@ post '/visit' do
 #	end
 	db = get_db
 	db.execute 'INSERT INTO Users (username, phone, datestamp, barber, color) 
-	values (?,?,?,?,?)', [@username, @phone, @datetime, @nameparihmaher, @color]
+	values (?,?,?,?,?)', [@username, @phone, @datetime, @barber, @color]
 	db.close
 	@title = "Спасибо!"
-	@message = "Уважаемый, #{@username}, #{@nameparihmaher} будет Вас ждать #{@datetime}" 
+	@message = "Уважаемый, #{@username}, #{@barber} будет Вас ждать #{@datetime}" 
 
 	f = File.open './public/users.txt', 'a'
-	f.write "Клиент: #{@username}, Телефон #{@phone}, Дата и время записи: #{@datetime}, Парихмахер: #{@nameparihmaher}, цвет: #{@color}\n"
+	f.write "Клиент: #{@username}, Телефон #{@phone}, Дата и время записи: #{@datetime}, Парихмахер: #{@barber}, цвет: #{@color}\n"
 	f.close
 	erb :message
 end
