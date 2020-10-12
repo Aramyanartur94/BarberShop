@@ -4,20 +4,25 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
 
-configure do
-	@db = SQLite3::Database.new 'barbershop.db'
-	@db.execute 'CREATE TABLE IF NOT EXISTS
-	`User`
-	(
-		`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
-		`username`	TEXT,
-		`phone`	TEXT,
-		`datestamp`	TEXT,
-		`barber`	TEXT,
-		`color`	TEXT
-	)'
+def get_db
+	db = SQLite3::Database.new 'barbershop.db'
+	db.results_as_hash = true
+	return db
 end
 
+configure do
+	db = get_db
+	db.execute 'CREATE TABLE IF NOT EXISTS
+	"Users"
+	(
+		"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+		"username"	TEXT,
+		"phone"	TEXT,
+		"datestamp"	TEXT,
+		"barber"	TEXT,
+		"color" TEXT
+	)'
+end
 get '/' do
 	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
 end
@@ -33,6 +38,10 @@ end
 
 get '/contacts' do
 	erb :contacts
+end
+
+get '/showusers' do
+	erb 'Helow word'
 end
 
 post '/visit' do
@@ -73,6 +82,9 @@ post '/visit' do
 #	def is_parameters_empty? hh	
 #	
 #	end
+	db = get_db
+	db.execute 'INSERT INTO Users (username, phone, datestamp, barber, color) 
+	values (?,?,?,?,?)', [@username, @phone, @datetime, @nameparihmaher, @color]
 
 	@title = "Спасибо!"
 	@message = "Уважаемый, #{@username}, #{@nameparihmaher} будет Вас ждать #{@datetime}" 
@@ -101,4 +113,3 @@ post '/contacts' do
 	a.write "Вопрос от #{@personname}: #{@question}, почта: #{@useremail}\n"
 	a.close
 end
-
