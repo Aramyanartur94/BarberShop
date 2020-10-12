@@ -119,13 +119,11 @@ post '/visit' do
 	db.execute 'INSERT INTO Users (username, phone, datestamp, barber, color) 
 	values (?,?,?,?,?)', [@username, @phone, @datetime, @barber, @color]
 	db.close
+	
 	@title = "Спасибо!"
 	@message = "Уважаемый, #{@username}, #{@barber} будет Вас ждать #{@datetime}" 
-
-	f = File.open './public/users.txt', 'a'
-	f.write "Клиент: #{@username}, Телефон #{@phone}, Дата и время записи: #{@datetime}, Парихмахер: #{@barber}, цвет: #{@color}\n"
-	f.close
 	erb :message
+	
 end
 
 post '/contacts' do
